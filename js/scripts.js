@@ -1,3 +1,6 @@
+/* List with pokemon values
+*/
+
 let pokemonList = [
     {name: 'Charmander', 
     height: 4, 
@@ -16,6 +19,8 @@ let pokemonList = [
     type:['fairy','normal']}
 ];
 
+/*for loop with integrated condition regarding hight, message, paragraphs for display
+*/
 
 for (let i = 0; i < pokemonList.length; i++) {        
     if (pokemonList[i].height >= 5) {
