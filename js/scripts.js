@@ -1,5 +1,6 @@
-/* List with pokemon values
+/* List with pokemon values, new pokemonRepository
 */
+let pokemonRepository = (function () {
 
 let pokemonList = [
     {name: 'Charmander', 
@@ -19,50 +20,30 @@ let pokemonList = [
     type:['fairy','normal']}
 ];
 
+function getAll(){
+  return pokemonList;
+}
+
+function add (pokemon) {
+    pokemonList.push(pokemon) 
+}
+
+return {
+  getAll: getAll,
+  add: add
+};
+
+})();
+
 /*forEach loop with document.write and paragraphs*/
 
-pokemonList.forEach(function(pokemon) {
-  console.log(pokemon.name + ' - ' + pokemon.height);
+pokemonRepository.getAll().forEach(function(pokemon) {
+  console.log(pokemon.name + ' - Height: ' + pokemon.height + ' - Type: ' + pokemon.type.join(', '));
 });
 
 function myLoopFunction(pokemon) {
-  document.write(pokemon.name + ' - ' + pokemon.height + ' <br>');
+  document.write(pokemon.name + ' - Height: ' + pokemon.height + ' - Type: ' + pokemon.type.join(', ') + ' <br>');
 }
 
-pokemonList.forEach(myLoopFunction);
-
-/*Object.keys for pokemonList console*/
-
-Object.keys(pokemonList).forEach(function(property) {
-  console.log(pokemonList[property]);
-});
-
-/*function getPokemonDescription with document.write and paragraphs
-*/
-
-function getHeightDescription(height) {
-  return height + ' m ';
-}
-
-function getTypeDescription(type) {
-  if (Array.isArray(type)) {
-    return type.join(', ');
-  }
-  return type;
-}
-
-function getPokemonDescription(pokemon) {
-  let heightDescription = getHeightDescription(pokemon.height);
-  let typeDescription = getTypeDescription(pokemon.type);
-
-  return pokemon.name + '; ' + heightDescription + '; ' + typeDescription;
-}
-
-pokemonList.forEach(function(pokemon) {
-  document.write(getPokemonDescription(pokemon) + '<br>'); 
-});
-
-
-
- 
+pokemonRepository.getAll().forEach(myLoopFunction);
 
