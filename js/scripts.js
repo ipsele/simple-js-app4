@@ -19,17 +19,50 @@ let pokemonList = [
     type:['fairy','normal']}
 ];
 
-/*for loop with integrated condition regarding hight, message, paragraphs for display
+/*forEach loop with document.write and paragraphs*/
+
+pokemonList.forEach(function(pokemon) {
+  console.log(pokemon.name + ' - ' + pokemon.height);
+});
+
+function myLoopFunction(pokemon) {
+  document.write(pokemon.name + ' - ' + pokemon.height + ' <br>');
+}
+
+pokemonList.forEach(myLoopFunction);
+
+/*Object.keys for pokemonList console*/
+
+Object.keys(pokemonList).forEach(function(property) {
+  console.log(pokemonList[property]);
+});
+
+/*function getPokemonDescription with document.write and paragraphs
 */
 
-for (let i = 0; i < pokemonList.length; i++) {        
-    if (pokemonList[i].height >= 5) {
-      document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + 'm) - Wow, that\'s a big pokemon! \;' + '<br>');
-    } else if (pokemonList[i].height < 5) {
-      document.write(pokemonList[i].name + ' (height: ' + pokemonList[i].height + 'm)  \;' + '<br>')
-    } 
+function getHeightDescription(height) {
+  return height + ' m ';
+}
+
+function getTypeDescription(type) {
+  if (Array.isArray(type)) {
+    return type.join(', ');
   }
-  
+  return type;
+}
+
+function getPokemonDescription(pokemon) {
+  let heightDescription = getHeightDescription(pokemon.height);
+  let typeDescription = getTypeDescription(pokemon.type);
+
+  return pokemon.name + '; ' + heightDescription + '; ' + typeDescription;
+}
+
+pokemonList.forEach(function(pokemon) {
+  document.write(getPokemonDescription(pokemon) + '<br>'); 
+});
+
+
 
  
 
