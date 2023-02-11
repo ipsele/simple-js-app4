@@ -39,7 +39,15 @@ function addListItem(pokemon) {
   button.classicList.add('pokemon-button');
   listItem.appendChild(button);
   pokemonList.appendChild(listItem);
+  button.addEventListener('click', function() {
+    showDetails(pokemon);
+  });
 }
+
+function showDetails(pokemon) {
+  console.log(pokemon);
+}
+
 return {
   getAll: getAll,
   add: add,
@@ -50,9 +58,7 @@ return {
 
 /*updated forEach loop*/
 
-let pokemonList = pokemonRepository.getAll();
-
-pokemonList.forEach(function(pokemon) {
+pokemonRepository.getAll().forEach(function(pokemon) {
   pokemonRepository.addListItem(pokemon);
 });
 
