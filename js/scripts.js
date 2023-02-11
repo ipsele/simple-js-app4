@@ -48,15 +48,11 @@ return {
 
 })();
 
-/*forEach loop with document.write and paragraphs*/
+/*updated forEach loop*/
 
-pokemonRepository.getAll().forEach(function(pokemon) {
-  console.log(pokemon.name + ' - Height: ' + pokemon.height + ' - Type: ' + pokemon.type.join(', '));
+let pokemonList = pokemonRepository.getAll();
+
+pokemonList.forEach(function(pokemon) {
+  pokemonRepository.addListItem(pokemon);
 });
-
-function myLoopFunction(pokemon) {
-  document.write(pokemon.name + ' - Height: ' + pokemon.height + ' - Type: ' + pokemon.type.join(', ') + ' <br>');
-}
-
-pokemonRepository.getAll().forEach(myLoopFunction);
 
