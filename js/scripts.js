@@ -20,6 +20,9 @@ let pokemonList = [
     type:['fairy','normal']}
 ];
 
+/* Functions, implementation of addListItem () in IIFE
+*/
+
 function getAll(){
   return pokemonList;
 }
@@ -28,9 +31,19 @@ function add (pokemon) {
     pokemonList.push(pokemon) 
 }
 
+function addListItem(pokemon) {
+  let pokemonList = document.querySelector('.pokemon-list');
+  let listItem = document.createElement('li');
+  let button = document.createElement('button');
+  button.innerText = pokemon.name;
+  button.classicList.add('pokemon-button');
+  listItem.appendChild(button);
+  pokemonList.appendChild(listItem);
+}
 return {
   getAll: getAll,
-  add: add
+  add: add,
+  addListItem:addListItem
 };
 
 })();
