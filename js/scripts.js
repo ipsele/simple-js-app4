@@ -22,14 +22,22 @@ function addListItem(pokemon) {
   let button = document.createElement('button');
   
   button.innerText = pokemon.name;
-  document.querySelector('.pokemon-list')
-  createListItem.appendChild(button);
+  createListItem.classList.add('group-list-item');
   pokemonListFolder.appendChild(createListItem);
-
-  button.addEventListener('click', function(){
+  createListItem.appendChild(button);
+  button.classList.add('btn', 'btn-primary', 'pokemon-button');
+  
+  button.addEventListener('click', function () {
     showDetails(pokemon);
   });
 }
+
+function showDetails(pokemon) {
+  loadDetails(pokemon).then(function(){
+    modalIIFE.showModal(pokemon);
+  });
+}
+
 
 function loadList() {
   return fetch(apiUrl)
@@ -55,7 +63,8 @@ function loadDetails(pokemon) {
   return fetch(url)
     .then(function (response) {
       return response.json();
-  }).then(function(details) {
+  })
+  .then(function(details) {
       //add the details to the item
       pokemon.imageUrl= details.sprites.front_default;
       pokemon.height= details.height;
@@ -66,10 +75,11 @@ function loadDetails(pokemon) {
   })
 }
 
-function showDetails(pokemon) {
-  loadDetails(pokemon).then(function () {
-    console.log(pokemon);
+function searchPokemon(query) {
+  let filteredList = pokemonList.filter(function(pokemon) {
+    return pokemon.name.toLowerCase().indexOf(query.toLowerCase())> -1;
   });
+  return filteredList;
 }
 
 return {
@@ -78,15 +88,49 @@ return {
   addListItem:addListItem,
   loadList: loadList,
   loadDetails: loadDetails,
+  showDetails: showDetails,
+  searchPokemon: searchPokemon
 };
 
 })();
 
-/*updated forEach loop*/
+/*modal repository IIFE*/
+let modalIIFE = (function () {
+  function showModal (pokemon) {
+    let modalContainer = document.querySelector('.modal-container');
+    modalContainer.classList.add('is-visible');
+    modalContainer.innerHTML = `
+    <div class="modal">
+      <div class="modal-dialog modal-custom" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title">Name: ${pokemon.name}</h1>
+           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+           </button>
+      </div>
+      <div class="modal-body">
+          <img src="${pokemon.imageUrl}" alt="${pokemon.name}" class="pokemon-image">
+          <p>Height: ${pokemon.height}</p>
+          <p>Types: ${pokemon.types.map(type => type.type.name).join(', ')}</p>
+      </div>
+      </div>
+    </div>
+    `;
+    let closeButton =modalContainer.querySelector('.close');
+    closeButton.addEventListener('click', hideModal);
+    }
 
-pokemonRepository.loadList().then(function() {
-  pokemonRepository.getAll().forEach(function(pokemon) {
-      pokemonRepository.addListItem(pokemon);
-  });
-});
+    function hideModal (){
+      let modalContainer = document.querySelector('.modal-container');
+      modalContainer.classList.remove('is-visible');
+    }
 
+    return {
+      showModal: showModal,
+      hideModal: hideModal
+    }
+
+})();
+
+pokemonRepository.loadList()
