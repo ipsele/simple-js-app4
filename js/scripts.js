@@ -1,9 +1,9 @@
-/* List with pokemon API, pokemonRepository
+/* pokemonRepository IIFE - API
 */
 let pokemonRepository = (function () {
 
   let pokemonList = [];
-  let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
+  let apiUrl = 'https://pokeapi.co/api/v2/pokemon?limit=151';
 
 /* Functions, implementation of addListItem () in IIFE
 */
@@ -34,7 +34,7 @@ function addListItem(pokemon) {
 
 function showDetails(pokemon) {
   loadDetails(pokemon).then(function(){
-    modalIIFE.showModal(pokemon);
+    modalRepository.showModal(pokemon);
   });
 }
 
@@ -95,31 +95,26 @@ return {
 })();
 
 /*modal repository IIFE*/
-let modalIIFE = (function () {
+let modalRepository = (function () {
   function showModal (pokemon) {
     let modalContainer = document.querySelector('.modal-container');
     modalContainer.classList.add('is-visible');
     modalContainer.innerHTML = `
+    <div class="modal-background">
     <div class="modal">
-      <div class="modal-dialog modal-custom" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title">Name: ${pokemon.name}</h1>
-           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-             <span aria-hidden="true">&times;</span>
-           </button>
-      </div>
-      <div class="modal-body">
-          <img src="${pokemon.imageUrl}" alt="${pokemon.name}" class="pokemon-image">
-          <p>Height: ${pokemon.height}</p>
-          <p>Types: ${pokemon.types.map(type => type.type.name).join(', ')}</p>
-      </div>
-      </div>
+      <h2>${pokemon.name}</h2>
+      <img src="${pokemon.imageUrl}">
+      <p>Height: ${pokemon.height}</p>
+      <button class="modal-close">Close</button>
     </div>
-    `;
-    let closeButton =modalContainer.querySelector('.close');
-    closeButton.addEventListener('click', hideModal);
-    }
+  </div>
+  `;
+  modalContainer.classList.add('is-visible');
+  let modalClose = modalContainer.querySelector('.modal-close');
+  modalClose.addEventListener('click', function() {
+    hideModal();
+  });
+}
 
     function hideModal (){
       let modalContainer = document.querySelector('.modal-container');
